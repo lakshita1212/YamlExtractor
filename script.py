@@ -10,6 +10,7 @@ for filename in os.listdir(directory):
         if f.endswith('.yaml'):
             ls.append(f)
 
+#print(ls)
 yextract.run(ls)
 
 

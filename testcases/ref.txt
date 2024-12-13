@@ -1,1 +1,65 @@
-this is ref
+import yaml
+import sys
+import os
+import shutil
+args = sys.argv
+#lst = []
+
+def run(args):
+    for i in range(len(args)-1):
+        lst = []
+        data = yaml.safe_load(open(args[1+i]))
+        #print("File Name:\n",args[1+i])
+
+        for job in data['jobs']:
+            direcname = "test_"+args[1]
+            os.mkdir(direcname)
+
+            count = 0
+            for step in data['jobs'][job]['steps']:
+                filename = "test_"+args[1]+str(count)+".sh"
+                my_file = open(filename, "a")
+                count += 1
+                #print(f'{job}: step {count}: {step}')
+                #lst.append([f'{job}: step {count}: {step}'])
+                my_file.write(f'{job}: step {count}: {step}\n')
+
+                #if 'run' in step:
+                    #print(f"MATCH: {step['run']}")
+            new_path = direcname+'/' + filename
+            shutil.move(os.path.abspath(__file__), new_path)
+    #print('abspath:     ', os.path.abspath(__file__))
+    #print('abs dirname: ', os.path.dirname(os.path.abspath(__file__)))
+
+
+
+run(args)
+
+'''
+import yaml
+import sys
+
+args = sys.argv
+def run(args):
+    infile = open(args[1],"r")
+    outfile = open('output.txt',"w")
+    for i in range(len(args)-1):
+        data = yaml.safe_load(open(args[1+i]))
+        print(args[1+i])
+        outfile.write(args[1+i])
+
+        for job in data['jobs']:
+            count = 0
+            for step in data['jobs'][job]['steps']:
+                count += 1
+                #print(f'{job}: step {count}: {step}')
+                #outfile.write(f'{job}: step {count}: {step}')
+
+            #if 'run' in step:
+                #outfile.write(f"MATCH: {step['run']}")
+                #print(f"MATCH: {step['run']}")
+
+
+
+run(args)
+'''
